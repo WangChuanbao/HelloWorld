@@ -10,6 +10,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QLineEdit>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _curFile = QString::fromLocal8Bit("未命名.txt");
     setWindowTitle(_curFile);
 
+    //查找
     _findDlg = new QDialog(this);
     _findDlg->setWindowTitle(QString::fromLocal8Bit("查找"));
     _findLineEdit = new QLineEdit(_findDlg);
@@ -37,6 +39,34 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(_findLineEdit);
     layout->addWidget(btn);
     connect(btn,SIGNAL(clicked()),this,SLOT(showFindText()));
+
+    /**
+      * 状态栏添加信息，
+      * 1.提示信息：控件调用setStatusTip()方法添加，或在设计模式下statusTip属性添加。
+      * 2.临时信息：statusBar调用showMessage()。
+      * 3.添加控件
+      * 4.显示永久信息：以上信息都是显示在状态左侧，永久信息会显示在右侧
+      */
+    //状态栏左侧显示"欢迎～～"，3秒后消失。状态栏显示临时信息，第二个参数为持续时间，毫秒单位
+    //ui->statusBar->showMessage(QString::fromLocal8Bit("欢迎～～"),3000);
+
+    //向状态栏添加控件
+    _statusLabel = new QLabel(this);
+    _statusLabel->setMinimumSize(150,20);   //设置最小大小
+    _statusLabel->setFrameShape(QFrame::WinPanel);  //设置标签形状
+    _statusLabel->setFrameShadow(QFrame::Sunken);   //设置标签阴影
+    ui->statusBar->addWidget(_statusLabel);
+    _statusLabel->setText(QString::fromLocal8Bit("欢迎～～"));
+
+    //显示永久信息
+    QLabel *label = new QLabel(this);
+    //label->setStyle(QFrame::Box | QFrame::Sunken);
+    label->setFrameShape(QFrame::Box);
+    label->setFrameShadow(QFrame::Sunken);
+    label->setText(QString::fromLocal8Bit("<a href=\"http://www.baidu.com\">baidu.com</a>"));
+    label->setTextFormat(Qt::RichText);     //解析内容模式，设置为富文本模式，支持html
+    label->setOpenExternalLinks(true);      //设置可自动打开连接
+    ui->statusBar->addPermanentWidget(label);
 }
 
 MainWindow::~MainWindow()

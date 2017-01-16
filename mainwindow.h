@@ -7,6 +7,7 @@
 
 class QLineEdit;
 class QDialog;
+class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -63,6 +64,7 @@ private:
     QString _curFile;   //当前文件路径
     QLineEdit *_findLineEdit;
     QDialog *_findDlg;
+    QLabel *_statusLabel;
 };
 
 #endif // MAINWINDOW_H

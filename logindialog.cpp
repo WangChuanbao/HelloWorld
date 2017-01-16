@@ -9,6 +9,8 @@ LoginDialog::LoginDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->lineEdit->setPlaceholderText(QString::fromLocal8Bit("用户名"));
+    ui->lineEdit_2->setPlaceholderText(QString::fromLocal8Bit("密码"));
+    ui->lineEdit_2->setEchoMode(QLineEdit::Password);
 }
 
 LoginDialog::~LoginDialog()
