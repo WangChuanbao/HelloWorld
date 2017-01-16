@@ -43,6 +43,7 @@
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
+    <addaction name="actionFind"/>
    </widget>
    <addaction name="menu_f"/>
   </widget>
@@ -130,6 +131,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionFind">
+   <property name="text">
+    <string>find</string>
    </property>
   </action>
  </widget>

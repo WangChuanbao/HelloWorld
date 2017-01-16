@@ -3,11 +3,13 @@
 #include <QDialog>
 #include <QFormLayout>
 #include <QStackedLayout>
+#include <QVBoxLayout>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
+#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,6 +28,15 @@ MainWindow::MainWindow(QWidget *parent) :
     _isUntitled = true;
     _curFile = QString::fromLocal8Bit("未命名.txt");
     setWindowTitle(_curFile);
+
+    _findDlg = new QDialog(this);
+    _findDlg->setWindowTitle(QString::fromLocal8Bit("查找"));
+    _findLineEdit = new QLineEdit(_findDlg);
+    QPushButton *btn = new QPushButton(QString::fromLocal8Bit("查找下一个"),_findDlg);
+    QVBoxLayout *layout = new QVBoxLayout(_findDlg);
+    layout->addWidget(_findLineEdit);
+    layout->addWidget(btn);
+    connect(btn,SIGNAL(clicked()),this,SLOT(showFindText()));
 }
 
 MainWindow::~MainWindow()
@@ -126,6 +137,15 @@ bool MainWindow::loadFile(const QString &fileName)
     return true;
 }
 
+void MainWindow::showFindText()
+{
+    QString str = _findLineEdit->text();
+    if (!ui->textEdit->find(str,QTextDocument::FindCaseSensitively|QTextDocument::FindBackward))
+    {
+        QMessageBox::warning(this,QString::fromLocal8Bit("查找"),QString::fromLocal8Bit("未找到%1").arg(str));
+    }
+}
+
 void MainWindow::on_pushButton_clicked()
 {
     QDialog *dlg = new QDialog(this);
@@ -202,4 +222,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->accept();
     else
         event->ignore();
+}
+
+void MainWindow::on_actionFind_triggered()
+{
+    _findDlg->show();
 }

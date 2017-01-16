@@ -5,6 +5,9 @@
 #include <QString>
 #include <QCloseEvent>
 
+class QLineEdit;
+class QDialog;
+
 namespace Ui {
 class MainWindow;
 }
@@ -47,6 +50,10 @@ private slots:
 
     void on_actionPaste_triggered();
 
+    void showFindText();
+
+    void on_actionFind_triggered();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -54,6 +61,8 @@ private:
     Ui::MainWindow *ui;
     bool _isUntitled;   //记录文件是否保存，true 未保存
     QString _curFile;   //当前文件路径
+    QLineEdit *_findLineEdit;
+    QDialog *_findDlg;
 };
 
 #endif // MAINWINDOW_H
